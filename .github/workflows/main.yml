@@ -24,4 +24,7 @@ jobs:
           pip install -r requirements.txt
       
       - name: Start Django server
-        run: python manage.py runserver 0.0.0.0:8000
+        run: |
+          python manage.py runserver 0.0.0.0:8000 &  # Start server in the background
+          sleep 5  # Wait for the server to start
+          curl http://localhost:8000  # Test if the server is running
