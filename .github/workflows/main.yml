@@ -1,1 +1,4 @@
 
+name: run-test
+on: push
+jobs: "test"
