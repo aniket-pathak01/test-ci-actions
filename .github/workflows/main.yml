@@ -13,18 +13,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
       
-      - name: Install dependencies
+      - name: Build and run Docker containers
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      
-      - name: Start Django server
-        run: |
-          python manage.py runserver 0.0.0.0:8000 &  # Start server in the background
-          sleep 5  # Wait for the server to start
+          docker-compose up --build -d
+          sleep 10  # Wait for the containers to start
           curl http://localhost:8000  # Test if the server is running
+
+      - name: Stop Docker containers
+        run: docker-compose down
